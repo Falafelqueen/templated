@@ -49,20 +49,20 @@ gem "bootsnap", require: false
 
 gem 'autoprefixer-rails'
 gem 'simple_form', github: 'heartcombo/simple_form'
-gem 'sassc-rails'
+#gem 'sassc-rails'
 
 
 group :development, :test do
   # Store secret keys in .env file
   gem 'rspec-rails'
   gem 'dotenv-rails'
-  
+
   # Check performance of queries [https://github.com/kirillshevch/query_track]
   gem 'query_track'
   gem 'factory_bot_rails'
   gem 'faker'
   gem 'webdrivers'
-  
+
   # One-liners to test common Rails functionality [https://github.com/thoughtbot/shoulda-matchers/tree/main]
   gem 'shoulda-matchers', '~> 6.0'
 
@@ -92,3 +92,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
 end
+
+gem 'tailwindcss-rails'

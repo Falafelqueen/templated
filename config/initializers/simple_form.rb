@@ -7,14 +7,20 @@
 # Dir[Rails.root.join('lib/components/**/*.rb')].each { |f| require f }
 #
 # Use this setup block to configure all options available in SimpleForm.
+
+# this loads the file from lib/simple_form/extensions.rb that contains the custom input
+require 'simple_form/extensions'
+
 SimpleForm.setup do |config|
   # Wrappers are used by the form builder to generate a
   # complete input. You can remove any component from the
   # wrapper, change the order or even add your own to the
   # stack. The options given below are used to wrap the
   # whole input.
-  config.wrappers :default, class: :input,
-    hint_class: :field_with_hint, error_class: :field_with_errors, valid_class: :field_without_errors do |b|
+  config.wrappers :default,
+    hint_class: :field_with_hint,
+    error_class: :field_with_errors,
+    valid_class: :field_without_errors do |b|
     ## Extensions enabled by default
     # Any of these extensions can be disabled for a
     # given input by passing: `f.input EXTENSION_NAME => false`.
@@ -53,15 +59,70 @@ SimpleForm.setup do |config|
 
     ## Inputs
     # b.use :input, class: 'input', error_class: 'is-invalid', valid_class: 'is-valid'
-    b.use :label_input
-    b.use :hint,  wrap_with: { tag: :span, class: :hint }
-    b.use :error, wrap_with: { tag: :span, class: :error }
-
+    b.use :label, class: 'block text-sm font-medium mb-2 dark:text-white'
+    b.wrapper tag: 'div', class: 'relative' do |ba|
+      ba.use :input, class: 'py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600'
+      ba.use :error_svg_with_container
+    end
+    b.use :error, wrap_with: { tag: 'p', class: 'text-xs text-red-600 mt-2 field-error' }
+    b.use :hint,  wrap_with: { tag: 'p', class: 'text-xs mt-2 field-hint' }
     ## full_messages_for
     # If you want to display the full error message for the attribute, you can
     # use the component :full_error, like:
     #
     # b.use :full_error, wrap_with: { tag: :span, class: :error }
+  end
+
+
+  config.wrappers :numeric,
+    hint_class: :field_with_hint,
+    error_class: :field_with_errors,
+    valid_class: :field_without_errors do |b|
+    ## Extensions enabled by default
+    # Any of these extensions can be disabled for a
+    # given input by passing: `f.input EXTENSION_NAME => false`.
+    # You can make any of these extensions optional by
+    # renaming `b.use` to `b.optional`.
+
+    # Determines whether to use HTML5 (:email, :url, ...)
+    # and required attributes
+    b.use :html5
+
+    # Calculates placeholders automatically from I18n
+    # You can also pass a string as f.input placeholder: "Placeholder"
+    b.use :placeholder
+
+    ## Optional extensions
+    # They are disabled unless you pass `f.input EXTENSION_NAME => true`
+    # to the input. If so, they will retrieve the values from the model
+    # if any exists. If you want to enable any of those
+    # extensions by default, you can change `b.optional` to `b.use`.
+
+    # Calculates maxlength from length validations for string inputs
+    # and/or database column lengths
+    b.optional :maxlength
+
+    # Calculate minlength from length validations for string inputs
+    b.optional :minlength
+
+    # Calculates pattern from format validations for string inputs
+    b.optional :pattern
+
+    # Calculates min and max from length validations for numeric inputs
+    b.optional :min_max
+
+    # Calculates readonly automatically from readonly attributes
+    b.optional :readonly
+
+    ## Inputs
+    # b.use :input, class: 'input', error_class: 'is-invalid', valid_class: 'is-valid'
+    b.use :label, class: 'block text-sm font-medium mb-2 dark:text-white'
+    b.wrapper tag: 'div', html:{ data: {controller: "numeric-controls"}}, class: 'relative'do |ba|
+      ba.use :input, data: {numeric_controls_target: 'value'}, value: 0, class: 'py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600'
+      ba.use :numeric_controls
+    end
+    b.use :error, wrap_with: { tag: 'p', class: 'text-xs text-red-600 mt-2 field-error' }
+    b.use :hint,  wrap_with: { tag: 'p', class: 'text-xs mt-2 field-hint' }
   end
 
   # The default wrapper to be used by the FormBuilder.
@@ -71,7 +132,7 @@ SimpleForm.setup do |config|
   # Defaults to :nested for bootstrap config.
   #   inline: input + label
   #   nested: label > input
-  config.boolean_style = :nested
+  config.boolean_style = :inline
 
   # Default class for buttons
   config.button_class = 'btn'
