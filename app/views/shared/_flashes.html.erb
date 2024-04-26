@@ -1,0 +1,63 @@
+<% if notice %>
+  <div class="bg-yellow-50 border border-yellow-200 text-sm text-yellow-800 rounded-lg p-4 dark:bg-yellow-800/10 dark:border-yellow-900 dark:text-yellow-500" role="alert">
+    <div class="flex">
+      <div class="flex-shrink-0">
+        <svg class="flex-shrink-0 size-4 mt-0.5" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"></path>
+          <path d="M12 9v4"></path>
+          <path d="M12 17h.01"></path>
+        </svg>
+      </div>
+      <div class="ms-4">
+        <h3 class="text-sm font-semibold">
+          <%= notice %>
+        </h3>
+        <% if flash[:info] %>
+          <div class="mt-1 text-sm text-yellow-700">
+            <%= flash[:info] %>
+          </div>
+        <% end %>
+      </div>
+    </div>
+  </div>
+<% end %>
+
+<% if alert %>
+  <div class="bg-red-50 border border-red-200 text-sm text-red-800 rounded-lg p-4 dark:bg-red-800/10 dark:border-red-900 dark:text-red-500" role="alert">
+    <div class="flex">
+      <div class="flex-shrink-0">
+      <!-- icon start -->
+        <span class="inline-flex justify-center items-center size-8 rounded-full border-4 border-red-100 bg-red-200 text-red-800 dark:border-red-900 dark:bg-red-800 dark:text-red-400">
+          <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M18 6 6 18"></path>
+            <path d="m6 6 12 12"></path>
+          </svg>
+        </span>
+      <!-- icon end -->
+      </div>
+      <div class="ms-4">
+        <h3 class="text-sm font-semibold">
+          <%= notice %>
+        </h3>
+        <% if flash[:info] %>
+          <div class="mt-1 text-sm text-red-700 dark:text-red-400">
+            <%= flash[:info] %>
+          </div>
+        <% end %>
+      </div>
+      <!-- dismiss btn start -->
+      <div class="ps-3 ms-auto">
+        <div class="-mx-1.5 -my-1.5">
+          <button type="button" class="inline-flex rounded-lg p-1.5  border-red-100 bg-red-200 text-red-800 hover:bg-red-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-red-50 focus:ring-red-600 dark:bg-transparent dark:hover:bg-red-800/50 dark:text-red-600" data-hs-remove-element="#dismiss-alert">
+            <span class="sr-only">Dismiss</span>
+            <svg class="flex-shrink-0 size-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M18 6 6 18"></path>
+              <path d="m6 6 12 12"></path>
+            </svg>
+          </button>
+        </div>
+      </div>
+      <!-- dismiss btn end -->
+    </div>
+  </div>
+<% end %>

@@ -2,13 +2,13 @@
 // Run that command whenever you add a new controller or create them with
 // ./bin/rails generate stimulus controllerName
 
-import { application } from "./application";
-import NumericControls from "stimulus-numeric-controls";
+import { application } from "./application"
 
-import HelloController from "./hello_controller";
-application.register("hello", HelloController);
+import FlashController from "./flash_controller"
+application.register("flash", FlashController)
 
-import SimpleFormController from "./simple_form_controller";
-application.register("simple-form", SimpleFormController);
+import HelloController from "./hello_controller"
+application.register("hello", HelloController)
 
-application.register("numeric-controls", NumericControls);
+import SimpleFormController from "./simple_form_controller"
+application.register("simple-form", SimpleFormController)

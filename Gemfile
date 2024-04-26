@@ -51,6 +51,8 @@ gem 'autoprefixer-rails'
 gem 'simple_form', github: 'heartcombo/simple_form'
 #gem 'sassc-rails'
 
+# Use devise for authentication
+gem "devise"
 
 group :development, :test do
   # Store secret keys in .env file
