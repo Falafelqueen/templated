@@ -11,12 +11,17 @@
 # this loads the file from lib/simple_form/extensions.rb that contains the custom input
 require 'simple_form/extensions'
 
+
+
 SimpleForm.setup do |config|
   # Wrappers are used by the form builder to generate a
   # complete input. You can remove any component from the
   # wrapper, change the order or even add your own to the
   # stack. The options given below are used to wrap the
   # whole input.
+  config.i18n_scope = 'simple_form'
+
+
   config.wrappers :default,
     hint_class: :field_with_hint,
     error_class: :field_with_errors,
@@ -118,24 +123,120 @@ SimpleForm.setup do |config|
     # b.use :input, class: 'input', error_class: 'is-invalid', valid_class: 'is-valid'
     b.use :label, class: 'block text-sm font-medium mb-2 dark:text-white'
     b.wrapper tag: 'div', html:{ data: {controller: "numeric-controls"}}, class: 'relative'do |ba|
-      ba.use :input, data: {numeric_controls_target: 'value'}, value: 0, class: 'py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600'
+      ba.use :input, data: {numeric_controls_target: 'value'}, class: 'py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600'
       ba.use :numeric_controls
     end
     b.use :error, wrap_with: { tag: 'p', class: 'text-xs text-red-600 mt-2 field-error' }
     b.use :hint,  wrap_with: { tag: 'p', class: 'text-xs mt-2 field-hint' }
   end
 
+  config.wrappers :numeric_without_controls,
+    hint_class: :field_with_hint,
+    error_class: :field_with_errors,
+    valid_class: :field_without_errors do |b|
+    ## Extensions enabled by default
+    # Any of these extensions can be disabled for a
+    # given input by passing: `f.input EXTENSION_NAME => false`.
+    # You can make any of these extensions optional by
+    # renaming `b.use` to `b.optional`.
+
+    # Determines whether to use HTML5 (:email, :url, ...)
+    # and required attributes
+    b.use :html5
+
+    # Calculates placeholders automatically from I18n
+    # You can also pass a string as f.input placeholder: "Placeholder"
+    b.use :placeholder
+
+    ## Optional extensions
+    # They are disabled unless you pass `f.input EXTENSION_NAME => true`
+    # to the input. If so, they will retrieve the values from the model
+    # if any exists. If you want to enable any of those
+    # extensions by default, you can change `b.optional` to `b.use`.
+
+    # Calculates maxlength from length validations for string inputs
+    # and/or database column lengths
+    b.optional :maxlength
+
+    # Calculate minlength from length validations for string inputs
+    b.optional :minlength
+
+    # Calculates pattern from format validations for string inputs
+    b.optional :pattern
+
+    # Calculates min and max from length validations for numeric inputs
+    b.optional :min_max
+
+    # Calculates readonly automatically from readonly attributes
+    b.optional :readonly
+
+    ## Inputs
+    # b.use :input, class: 'input', error_class: 'is-invalid', valid_class: 'is-valid'
+    b.use :label, class: 'block text-sm font-medium mb-2 dark:text-white'
+    b.wrapper tag: 'div', class: 'relative'do |ba|
+      ba.use :input, class: 'py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600'
+    end
+    b.use :error, wrap_with: { tag: 'p', class: 'text-xs text-red-600 mt-2 field-error' }
+    b.use :hint,  wrap_with: { tag: 'p', class: 'text-xs mt-2 field-hint' }
+  end
+
+
+  config.wrappers :switch,
+    hint_class: :field_with_hint,
+    error_class: :field_with_errors,
+    valid_class: :field_without_errors do |b|
+      b.use :label, class: 'mr-4 text-sm font-medium'
+      b.wrapper tag: 'div', class: 'relative inline-block' do |ba|
+        ba.use :input, class: 'peer relative shrink-0 w-[4.25rem] h-9 p-px bg-gray-100 border border-gray-200 text-transparent rounded-full cursor-pointer transition-colors ease-in-out duration-200 focus:ring-brand-600 disabled:opacity-50 disabled:pointer-events-none checked:bg-none checked:text-brand-100 checked:border-brand-200 focus:checked:border-brand-200 dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-brand-800/30 dark:checked:border-brand-800 dark:focus:ring-offset-gray-600 before:inline-block before:w-8 before:h-8 before:bg-white checked:before:bg-brand-600 before:translate-x-0 checked:before:translate-x-full before:rounded-full before:transform before:ring-0 before:transition before:ease-in-out before:duration-200 dark:before:bg-neutral-400 dark:checked:before:bg-brand-500'
+        ba.use :switch_toggle
+      end
+  end
+
+  config.wrappers :checkbox,
+    hint_class: :field_with_hint,
+    error_class: :field_with_errors,
+    valid_class: :field_without_errors do |b|
+      b.wrapper tag: 'div', class: 'relative flex' do |ba|
+        ba.use :input, type: 'checkbox', class: "shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-800 dark:border-neutral-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+        ba.use :label, class: 'ml-4 text-sm font-medium'
+      end
+  end
+
+  config.wrappers :color,
+    hint_class: :field_with_hint,
+    error_class: :field_with_errors,
+    valid_class: :field_without_errors do |b|
+      b.wrapper tag: 'div', class: 'relative flex-reverse min-h-full' do |ba|
+        ba.use :label, class: 'block text-sm font-medium mb-2 dark:text-white'
+        ba.use :input, type: 'color', class: 'py-1 px-1 block w-11 h-[2.875rem] grow border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-neutral-900 dark:border-neutral-700 dark:text-neutral-400 dark:placeholder-neutral-500 dark:focus:ring-neutral-600'
+      end
+    end
+
+  config.wrappers :file,
+    hint_class: :field_with_hint,
+    error_class: :field_with_errors,
+    valid_class: :field_without_errors do |b|
+      b.wrapper tag: 'div', class: 'relative' do |ba|
+        ba.use :label, class: 'block text-sm font-medium mb-4 dark:text-white'
+        ba.use :input, class: 'block w-full text-sm text-gray-500
+        file:me-4 file:py-2 file:px-4
+        file:rounded-full file:border
+        file:border-brand
+        file:text-sm file:font-semibold
+        file:bg-white file:text-brand
+        hover:file:cursor-pointer
+        hover:file:bg-brand-700
+        hover:file:text-white
+        file:disabled:opacity-50 file:disabled:pointer-events-none
+        dark:text-neutral-500
+        dark:file:bg-brand-500
+        dark:hover:file:bg-brand-400', type: :file
+      end
+    end
+
   # The default wrapper to be used by the FormBuilder.
   config.default_wrapper = :default
 
-  # Define the way to render check boxes / radio buttons with labels.
-  # Defaults to :nested for bootstrap config.
-  #   inline: input + label
-  #   nested: label > input
-  config.boolean_style = :inline
-
-  # Default class for buttons
-  config.button_class = 'btn'
 
   # Method used to tidy up errors. Specify any Rails Array method.
   # :first lists the first message for each field.
@@ -223,6 +324,9 @@ SimpleForm.setup do |config|
 
   # Define the default class of the input wrapper of the boolean input.
   config.boolean_label_class = 'checkbox'
+
+  # Define the way to render check boxes / radio buttons with labels.
+  config.boolean_style = :inline
 
   # Defines if the default input wrapper class should be included in radio
   # collection wrappers.
